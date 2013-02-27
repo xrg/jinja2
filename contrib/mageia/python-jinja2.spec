@@ -1,16 +1,18 @@
+%define git_repo python-jinja2
+%define git_head HEAD
+
 %define tarname Jinja2
-%define name	python-jinja2
-%define version 2.5.5
-%define release %mkrel 8
 
 # jinja requires itself ( as python-sphinx use it ) to build doc
 %define enable_doc 1
 
 Summary:	Python template engine
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
-Source0:	%{tarname}-%{version}.tar.gz
+Name:		python-jinja2
+Version:	%git_get_ver
+Release:	%mkrel %git_get_rel2
+Source:		%git_bs_source %{name}-%{version}.tar.gz
+Source1:	%{name}-gitrpm.version
+Source2:	%{name}-changelog.gitrpm.txt
 License:	BSD
 Group:		Development/Python
 Url:		http://jinja.pocoo.org/
@@ -33,7 +35,8 @@ friendly by sticking to Python's principles and adding functionality
 useful for templating environments.
 
 %prep
-%setup -q -n %{tarname}-%{version}
+%git_get_source
+%setup -q
 
 %build
 PYTHONDONTWRITEBYTECODE= %__python setup.py build 
